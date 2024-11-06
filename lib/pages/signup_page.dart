@@ -1,4 +1,5 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/pages/feed_page.dart';
 
@@ -149,12 +150,16 @@ class SignUpPage extends StatelessWidget {
 
   Future<void> _signUp(BuildContext context) async {
     try {
-      final email = _emailController.text.trim();
-      final password = _passwordController.text.trim();
+      final String email = _emailController.text.trim();
+      final String password = _passwordController.text.trim();
+      final String nickname = _nickNameController.text.trim();
 
       // 과제1: 회원가입 처리
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       // 과제2: 닉네임 업데이트
+      await userCredential.user?.updateDisplayName(nickname);
 
       // 로그인 성공 시 피드 화면으로 이동
       Navigator.pushReplacement(
